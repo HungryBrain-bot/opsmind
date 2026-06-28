@@ -1,0 +1,32 @@
+[project]
+name = "opsmind"
+version = "0.1.0"
+description = "A modular AI Operations Platform powered by GraphRAG."
+requires-python = ">=3.11"
+
+authors = [
+    { name = "Venu Reddy K S", email = "venureddyks@gmail.com" }
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py313"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
+testpaths = [
+    "backend/tests"
+]
