@@ -11,7 +11,12 @@ class Settings(BaseSettings):
 
     ollama_host: str
 
-    log_level: str
+    # Logging Configuration
+    log_level: str = "INFO"
+    log_format: str = "text"          # text | json
+    enable_console_logging: bool = True
+    enable_file_logging: bool = False
+    log_file: str = "logs/opsmind.log"
 
     model_config = SettingsConfigDict(
         env_file=".env",

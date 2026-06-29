@@ -2,6 +2,9 @@ from fastapi import APIRouter
 
 from backend.app.config.settings import settings
 from backend.app.schemas.health import HealthResponse
+from backend.app.core.logging import configure_logging, get_logger
+
+logger = get_logger(__name__)
 
 router = APIRouter(
     prefix="/health",
@@ -17,6 +20,9 @@ def health() -> HealthResponse:
     Returns the current application status.
     """
 
+    logger.info("health.request")
+
+    
     return HealthResponse(
         status="healthy",
         version=settings.app_version,
