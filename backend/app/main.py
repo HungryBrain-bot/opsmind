@@ -1,12 +1,4 @@
-from fastapi import FastAPI
+from backend.app.config.settings import settings
+from backend.app.factory import create_app
 
-app = FastAPI(
-    title="OpsMind API",
-    version="0.1.0",
-    description="AI Operations Platform powered by GraphRAG",
-)
-
-
-@app.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "healthy"}
+app = create_app(settings)
