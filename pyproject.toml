@@ -8,6 +8,14 @@ authors = [
     { name = "Venu Reddy K S", email = "venureddyks@gmail.com" }
 ]
 
+[project.optional-dependencies]
+dev = [
+    "black",
+    "ruff",
+    "pytest",
+    "pre-commit",
+]
+
 [tool.black]
 line-length = 88
 target-version = ["py313"]

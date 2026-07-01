@@ -2,7 +2,8 @@ from fastapi import FastAPI
 
 from backend.app.api import api_router
 from backend.app.config.settings import Settings
-from backend.app.core.logging import configure_logging, get_logger
+from backend.app.core.lifecycle import lifespan
+from backend.app.core.logging import configure_logging
 
 
 def create_app(settings: Settings) -> FastAPI:
@@ -14,18 +15,15 @@ def create_app(settings: Settings) -> FastAPI:
 
     configure_logging(settings)
 
-    logger = get_logger(__name__)
-
-    logger.info("application.starting")
-
     app = FastAPI(
         title=settings.app_name,
         version=settings.app_version,
         description="AI Operations Platform powered by GraphRAG",
+        lifespan=lifespan,
     )
 
-    app.include_router(api_router)
+    app.state.settings = settings
 
-    logger.info("application.started")
+    app.include_router(api_router)
 
     return app

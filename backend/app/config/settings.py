@@ -1,22 +1,43 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+
+    # -------------------------------------------------------
+    # Application
+    # -------------------------------------------------------
     app_name: str
     app_version: str
     app_env: str
 
+    # -------------------------------------------------------
+    # API
+    # -------------------------------------------------------
     api_host: str
     api_port: int
 
+    # -------------------------------------------------------
+    # LLM
+    # -------------------------------------------------------
     ollama_host: str
 
-    # Logging Configuration
+    # -------------------------------------------------------
+    # Logging
+    # -------------------------------------------------------
     log_level: str = "INFO"
-    log_format: str = "text"          # text | json
+    log_format: str = "text"
     enable_console_logging: bool = True
     enable_file_logging: bool = False
-    log_file: str = "logs/opsmind.log"
+    log_file: Path = Path("logs/opsmind.log")
+
+    # -------------------------------------------------------
+    # Directories
+    # -------------------------------------------------------
+    data_dir: Path = Path("data")
+    logs_dir: Path = Path("logs")
+    models_dir: Path = Path("models")
 
     model_config = SettingsConfigDict(
         env_file=".env",

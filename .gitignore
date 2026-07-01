@@ -32,8 +32,20 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# Runtime
+logs/*
+!logs/.gitkeep
+
+# Processed artifacts
+data/processed/*
+data/embeddings/*
+
+# Keep directory structure
+!data/processed/.gitkeep
+!data/embeddings/.gitkeep
+
+# Raw documents (optional)
+# data/raw/*
 
 # Build Artifacts
 build/

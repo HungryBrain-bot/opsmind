@@ -8,18 +8,12 @@ a consistent logger interface for all application modules.
 import json
 import logging
 from logging.handlers import RotatingFileHandler
-from pathlib import Path
 
 from backend.app.config.settings import Settings
 
 LOGGER_NAME = "opsmind"
 
-TEXT_FORMAT = (
-    "%(asctime)s | "
-    "%(levelname)-8s | "
-    "%(name)s | "
-    "%(message)s"
-)
+TEXT_FORMAT = "%(asctime)s | " "%(levelname)-8s | " "%(name)s | " "%(message)s"
 
 
 class JsonFormatter(logging.Formatter):
@@ -33,6 +27,9 @@ class JsonFormatter(logging.Formatter):
             "level": record.levelname,
             "logger": record.name,
             "message": record.getMessage(),
+            "module": record.module,
+            "function": record.funcName,
+            "line": record.lineno,
         }
 
         return json.dumps(log_record)
@@ -53,6 +50,7 @@ def configure_logging(settings: Settings) -> None:
 
     logger.setLevel(settings.log_level.upper())
 
+    # Prevent duplicate logs from the root logger
     logger.propagate = False
 
     #
@@ -75,14 +73,13 @@ def configure_logging(settings: Settings) -> None:
     # File Handler
     #
     if settings.enable_file_logging:
-        log_path = Path(settings.log_file)
 
         # Create logs directory if it doesn't exist
-        log_path.parent.mkdir(parents=True, exist_ok=True)
+        settings.log_file.parent.mkdir(parents=True, exist_ok=True)
 
         file_handler = RotatingFileHandler(
-            filename=log_path,
-            maxBytes=5 * 1024 * 1024,   # 5 MB
+            filename=settings.log_file,
+            maxBytes=5 * 1024 * 1024,
             backupCount=5,
             encoding="utf-8",
         )
@@ -103,6 +100,6 @@ def get_logger(name: str) -> logging.Logger:
     """
 
     if name.startswith("backend.app."):
-        name = name.replace("backend.app.", "")
+        name = name.removeprefix("backend.app.")
 
     return logging.getLogger(f"{LOGGER_NAME}.{name}")
