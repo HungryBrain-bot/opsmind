@@ -44,5 +44,12 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
     )
 
+    # -------------------------------------------------------
+    # Chunking
+    # -------------------------------------------------------
+
+    chunk_size: int = 1000
+    chunk_overlap: int = 200
+
 
 settings = Settings()
